@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.developers.obsidian.basicandroidnetworking"
-        minSdkVersion 21
+        minSdkVersion 14
         targetSdkVersion 21
         versionCode 1
         versionName "1.0"
@@ -22,4 +22,7 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:support-v4:21.0.2'
+    compile 'com.android.support:cardview-v7:21.0.2'
+    compile 'com.android.support:palette-v7:21.0.2'
+    compile 'com.android.support:appcompat-v7:21.0.2'
 }

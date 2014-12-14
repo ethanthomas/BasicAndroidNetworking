@@ -1,146 +1,194 @@
 package com.developers.obsidian.basicandroidnetworking;
 
-import android.app.Activity;
-
-import android.app.ActionBar;
-import android.app.Fragment;
-import android.app.FragmentManager;
 import android.content.Context;
-import android.os.Build;
+import android.content.res.Configuration;
+import android.graphics.Typeface;
 import android.os.Bundle;
-import android.view.Gravity;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.support.v4.widget.DrawerLayout;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import com.developers.obsidian.basicandroidnetworking.drawerfragments.BasicJSONFragment;
+import com.developers.obsidian.basicandroidnetworking.drawerfragments.BasicXMLFragment;
 
-public class MainActivity extends Activity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+public class MainActivity extends FragmentActivity {
 
-    /**
-     * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
-     */
-    private NavigationDrawerFragment mNavigationDrawerFragment;
-
-    /**
-     * Used to store the last screen title. For use in {@link #restoreActionBar()}.
-     */
+    private DrawerLayout mDrawerLayout;
+    private ListView mLeftDrawer;
+    private ActionBarDrawerToggle mDrawerToggle;
+    TextView title;
+    private CharSequence mDrawerTitle;
     private CharSequence mTitle;
+    private String[] mFragmentTitles = {"Basic Json", "Basic XML", "Basic Something Else"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mNavigationDrawerFragment = (NavigationDrawerFragment)
-                getFragmentManager().findFragmentById(R.id.navigation_drawer);
-        mTitle = getTitle();
+        mTitle = mDrawerTitle = getTitle();
 
-        // Set up the drawer.
-        mNavigationDrawerFragment.setUp(
-                R.id.navigation_drawer,
-                (DrawerLayout) findViewById(R.id.drawer_layout));
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mLeftDrawer = (ListView) findViewById(R.id.left_drawer);
+
+        title = (TextView) findViewById(R.id.title);
+
+        mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow,
+                GravityCompat.START);
+        mLeftDrawer.setAdapter(new CustomAdapter(this, mFragmentTitles));
+
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setHomeButtonEnabled(true);
+        getActionBar().setIcon(R.drawable.invisible_0);
+
+        mLeftDrawer.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                selectItem(position);
+                ((CustomAdapter) parent.getAdapter()).selectItem(position);
+            }
+        });
+
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.app_name, R.string.app_name) {
+        };
+
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        if (savedInstanceState == null) {
+            selectItem(0);
+        }
+
+//        mDrawerLayout.openDrawer(mLeftDrawer);
+
     }
 
     @Override
-    public void onNavigationDrawerItemSelected(int position) {
-        // update the main content by replacing fragments
-        FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
-                .commit();
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        boolean drawerOpen = mDrawerLayout.isDrawerOpen(mLeftDrawer);
+        return super.onPrepareOptionsMenu(menu);
     }
-
-    public void onSectionAttached(int number) {
-        switch (number) {
-            case 1:
-                mTitle = getString(R.string.title_section1);
-                break;
-            case 2:
-                mTitle = getString(R.string.title_section2);
-                break;
-            case 3:
-                mTitle = getString(R.string.title_section3);
-                break;
-        }
-    }
-
-    public void restoreActionBar() {
-        ActionBar actionBar = getActionBar();
-        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
-        actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setTitle(mTitle);
-    }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (!mNavigationDrawerFragment.isDrawerOpen()) {
-            // Only show items in the action bar relevant to this screen
-            // if the drawer is not showing. Otherwise, let the drawer
-            // decide what to show in the action bar.
-            getMenuInflater().inflate(R.menu.main, menu);
-            restoreActionBar();
-            return true;
-        }
+//       MenuInflater inflater = getMenuInflater();
+//       inflater.inflate(R.menu);
         return super.onCreateOptionsMenu(menu);
     }
 
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                if (mDrawerLayout.isDrawerOpen(mLeftDrawer)) {
+                    mDrawerLayout.closeDrawer(mLeftDrawer);
+                } else {
+                    mDrawerLayout.openDrawer(mLeftDrawer);
+                }
+                return true;
         }
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private static final String ARG_SECTION_NUMBER = "section_number";
+    private void selectItem(int position) {
+        Fragment newFragment = new BasicJSONFragment();
+        FragmentManager fm = getSupportFragmentManager();
+        switch (position) {
+            case 0:
+                newFragment = new BasicJSONFragment();
+                break;
 
-        /**
-         * Returns a new instance of this fragment for the given section
-         * number.
-         */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
+            case 1:
+                newFragment = new BasicXMLFragment();
+                break;
+
+            case 2:
+                newFragment = new BasicJSONFragment();
+                break;
+
         }
 
-        public PlaceholderFragment() {
+        fm.beginTransaction().replace(R.id.content_frame, newFragment).commit();
+        mLeftDrawer.setItemChecked(position, true);
+        setTitle(mFragmentTitles[position]);
+        mDrawerLayout.closeDrawer(mLeftDrawer);
+
+    }
+
+    @Override
+    public void setTitle(CharSequence title) {
+        mTitle = title;
+        getActionBar().setTitle(title);
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        mDrawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mDrawerToggle.onConfigurationChanged(newConfig);
+
+    }
+
+    public class CustomAdapter extends BaseAdapter {
+
+        Context context;
+        String[] mTitle;
+        LayoutInflater inflater;
+        private int selectedItem;
+
+        public CustomAdapter(Context context, String[] title) {
+            this.context = context;
+            this.mTitle = title;
+        }
+
+        public void selectItem(int selectedItem) {
+            this.selectedItem = selectedItem;
+            notifyDataSetChanged();
         }
 
         @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            return rootView;
+        public int getCount() {
+            return mTitle.length;
         }
 
         @Override
-        public void onAttach(Activity activity) {
-            super.onAttach(activity);
-            ((MainActivity) activity).onSectionAttached(
-                    getArguments().getInt(ARG_SECTION_NUMBER));
+        public Object getItem(int position) {
+            return mTitle[position];
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        public View getView(int position, View convertView, ViewGroup parent) {
+
+            TextView txtTitle;
+
+            inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+            View itemView = inflater.inflate(R.layout.new_drawer_list_item, parent, false);
+
+            txtTitle = (TextView) itemView.findViewById(R.id.drawerItemText);
+
+            txtTitle.setText(mTitle[position]);
+            txtTitle.setTypeface(null, position == selectedItem ? Typeface.BOLD : Typeface.NORMAL);
+
+            return itemView;
         }
     }
-
 }
