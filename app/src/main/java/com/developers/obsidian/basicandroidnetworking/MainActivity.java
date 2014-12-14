@@ -20,6 +20,7 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.developers.obsidian.basicandroidnetworking.drawerfragments.BasicImageFragment;
 import com.developers.obsidian.basicandroidnetworking.drawerfragments.BasicJSONFragment;
 import com.developers.obsidian.basicandroidnetworking.drawerfragments.BasicXMLFragment;
 
@@ -31,7 +32,7 @@ public class MainActivity extends FragmentActivity {
     TextView title;
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
-    private String[] mFragmentTitles = {"Basic Json", "Basic XML", "Basic Something Else"};
+    private String[] mFragmentTitles = {"Basic Json", "Basic XML", "Basic Image Loading"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,7 +113,7 @@ public class MainActivity extends FragmentActivity {
                 break;
 
             case 2:
-                newFragment = new BasicJSONFragment();
+                newFragment = new BasicImageFragment();
                 break;
 
         }
