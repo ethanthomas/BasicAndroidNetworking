@@ -81,10 +81,10 @@ public class BasicXMLFragment extends Fragment {
                     org.w3c.dom.Element eElement = (org.w3c.dom.Element) nNode;
 
                     title = (TextView) getView().findViewById(R.id.xmlTitle);
-                    title.setText(getNode("title", eElement).toString());
+                    title.setText("Title tag loaded from XML:\n" + getNode("title", eElement).toString());
 
                     subtext = (TextView) getView().findViewById(R.id.xmlSubText);
-                    subtext.setText(getNode("subtext", eElement).toString());
+                    subtext.setText("SubText tag loaded from XML:\n" + getNode("subtext", eElement).toString());
 
 
                 }

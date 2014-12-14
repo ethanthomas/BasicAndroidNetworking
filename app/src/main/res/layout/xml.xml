@@ -7,15 +7,21 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
         android:id="@+id/xmlTitle"
-        android:layout_gravity="center_horizontal" />
+        android:textSize="25sp"
+        android:paddingTop="20dp"
+        android:paddingLeft="20dp"
+        android:layout_gravity="left"
+        android:textColor="@color/material_blue_grey_950" />
 
     <TextView
         android:layout_width="wrap_content"
+        android:textSize="20sp"
+        android:textColor="@color/material_blue_grey_900"
         android:layout_height="wrap_content"
         android:paddingTop="20dp"
+        android:paddingLeft="20dp"
         android:id="@+id/xmlSubText"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="left" />
 
 </LinearLayout>
