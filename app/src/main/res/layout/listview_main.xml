@@ -14,16 +14,12 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:cacheColorHint="@android:color/transparent"
-            android:divider="@color/primary_material_light"
-            android:dividerHeight="1dp"
+            android:dividerHeight="0dp"
             android:footerDividersEnabled="true"
             android:headerDividersEnabled="true"
-            android:listSelector="@android:color/transparent"
-            android:scrollbarStyle="outsideOverlay"
-            android:textColor="#333" />
+            android:scrollbars="none"
+            android:textColor="#333"/>
 
     </android.support.v4.widget.SwipeRefreshLayout>
-
-
 
 </RelativeLayout>
