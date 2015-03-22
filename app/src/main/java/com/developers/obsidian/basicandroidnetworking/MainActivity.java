@@ -32,7 +32,7 @@ public class MainActivity extends FragmentActivity {
     TextView title;
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
-    private String[] mFragmentTitles = {"Basic Json", "Basic XML", "Basic Image Loading"};
+    private String[] mFragmentTitles = {"JSON", "XML", "Image"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,19 +72,6 @@ public class MainActivity extends FragmentActivity {
 
 //        mDrawerLayout.openDrawer(mLeftDrawer);
 
-    }
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        boolean drawerOpen = mDrawerLayout.isDrawerOpen(mLeftDrawer);
-        return super.onPrepareOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-//       MenuInflater inflater = getMenuInflater();
-//       inflater.inflate(R.menu);
-        return super.onCreateOptionsMenu(menu);
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {

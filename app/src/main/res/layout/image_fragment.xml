@@ -1,15 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:id="@+id/swipe">
+    android:layout_width="match_parent">
 
-
-    <ImageView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/cal" />
+        android:orientation="vertical">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Stock Android Implementation"
+            android:fontFamily="sans-serif-light"
+            android:layout_gravity="left|top"
+            android:layout_marginLeft="25dp"
+            android:textSize="30sp"
+            android:textColor="@color/material_blue_grey_950" />
 
-</android.support.v4.widget.SwipeRefreshLayout>
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:id="@+id/image1"
+            android:layout_gravity="left|top"
+            android:layout_marginLeft="25dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Picasso Library Implementation"
+            android:fontFamily="sans-serif-light"
+            android:layout_gravity="left|top"
+            android:layout_marginLeft="25dp"
+            android:textSize="30sp"
+            android:textColor="@color/material_blue_grey_950" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:id="@+id/image2"
+            android:layout_gravity="left|top"
+            android:layout_marginLeft="25dp" />
+
+    </LinearLayout>
+</ScrollView>

@@ -5,7 +5,6 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +12,7 @@ import android.widget.ImageView;
 
 import com.developers.obsidian.basicandroidnetworking.R;
 import com.developers.obsidian.basicandroidnetworking.utils.CheckNetwork;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -20,46 +20,21 @@ import java.net.URL;
 
 public class BasicImageFragment extends Fragment {
 
-
-    SwipeRefreshLayout swipeRefreshLayout;
-    ImageView imageView;
-
+    ImageView imageView1, imageView2;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.image_fragment, null);
 
-        imageView = (ImageView) root.findViewById(R.id.cal);
+        imageView1 = (ImageView) root.findViewById(R.id.image1);
+        imageView2 = (ImageView) root.findViewById(R.id.image2);
 
-        swipeRefreshLayout = (SwipeRefreshLayout) root.findViewById(R.id.swipe);
-
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                if (CheckNetwork.isInternetAvailable(getActivity())) {
-
-                    new Get().execute();
-
-                } else {
-
-                    swipeRefreshLayout.setRefreshing(false);
-                }
-
-
-            }
-        });
-
-        swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
-                android.R.color.holo_red_light,
-                android.R.color.holo_green_light,
-                android.R.color.holo_orange_light);
-
-        new Get().execute();
-
+        if (CheckNetwork.isInternetAvailable(getActivity())) {
+            new Get().execute();
+            Picasso.with(getActivity()).load("http://cdn.gottabemobile.com/wp-content/uploads/2014/06/Android-Evolution.jpg").into(imageView2);
+        }
         return root;
-
     }
-
 
     private class Get extends AsyncTask<Void, Void, Void> {
 
@@ -69,7 +44,6 @@ public class BasicImageFragment extends Fragment {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            swipeRefreshLayout.setRefreshing(true);
 
         }
 
@@ -91,13 +65,7 @@ public class BasicImageFragment extends Fragment {
         @Override
         public void onPostExecute(Void result) {
             super.onPostExecute(result);
-
-            swipeRefreshLayout.setRefreshing(false);
-
-            imageView.setImageBitmap(bmp);
+            imageView1.setImageBitmap(bmp);
         }
-
     }
-
-
 }
